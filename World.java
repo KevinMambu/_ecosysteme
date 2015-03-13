@@ -6,13 +6,15 @@ public class World {
 	int _dx;
 	int _dy;
 	
-	int Buffer0[][];
-	int Buffer1[][];
+	boolean Buffer0[][][];
+	boolean Buffer1[][][];
 	
 	boolean buffering;
 	boolean cloneBuffer; // if buffering, clone buffer after swith
 	
 	int activeIndex;
+
+	int alt[][];
 	
 	ArrayList<Agent> agents;
 	SpriteDemo image;	
@@ -26,17 +28,33 @@ public class World {
 		buffering = __buffering;
 		cloneBuffer = __cloneBuffer;
 		
-		Buffer0 = new int[_dx][_dy];
-		Buffer1 = new int[_dx][_dy];
+		Buffer0 = new boolean[_dx][_dy][6];
+		Buffer1 = new boolean[_dx][_dy][6];
+		alt = new int[_dx][_dy];	
+		/*0: herbe*/
+		/*1: arbre*/
+		/*2: roche volcanique*/
+		/*3: magma*/
+		/*4: eau*/
+		/*5: lave*/
+		
 		activeIndex = 0;
 		agents = new ArrayList<Agent>();
 		for(int i = 0; i != _dx; i += 1) {
 			for(int j = 0; j != _dy; j += 1) {
-				Buffer0[i][j] = 9;
-				Buffer1[i][j] = 9;
+				alt[i][j] = 0;
+				for(int h = 0; h != 5; h += 1) {
+					Buffer0[i][j][h] = false;
+					Buffer1[i][j][h] = false;
+				}
 			}
 		}
-		
+		for(int i = 0; i != _dx; i += 1) {
+			for(int j = 0; j != _dy; j += 1) {
+				Buffer0[i][j][0] = true;
+				Buffer1[i][j][0] = true;
+			}
+		}
 	}
 	
 	public void checkBounds( int __x , int __y )
@@ -48,9 +66,9 @@ public class World {
 		}
 	}
 	
-	public int getCellState ( int __x, int __y )
+	public boolean[] getCellState ( int __x, int __y )
 	{
-		int res;
+		boolean[] res;
 		checkBounds (__x,__y);
 		
 		if ( buffering == false )
@@ -72,23 +90,23 @@ public class World {
 		return res;
 	}
 	
-	public void setCellState (int type, int __x, int __y)
+	public void setCellState (int type, boolean bool, int __x, int __y)
 	{
 		checkBounds (__x,__y);
 		
 		if ( buffering == false )
 		{
-			Buffer0[__x][__y] = type;
+			Buffer0[__x][__y][type] = bool;
 		}
 		else
 		{
 			if ( activeIndex == 0 ) // write new buffer
 			{
-				Buffer0[__x][__y] = type;
+				Buffer0[__x][__y][type] = bool;
 			}
 			else
 			{
-				Buffer1[__x][__y] = type;
+				Buffer1[__x][__y][type] = bool;
 			}
 		}
 	}
@@ -124,7 +142,7 @@ public class World {
 
 	}
 	
-	public int[][] getCurrentBuffer()
+	public boolean[][][] getCurrentBuffer()
 	{
 		if ( activeIndex == 0 || buffering == false ) 
 			return Buffer0;
