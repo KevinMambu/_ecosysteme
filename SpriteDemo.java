@@ -30,19 +30,26 @@ public class SpriteDemo extends JPanel
 	{
 		try
 		{
-			grassSprite = ImageIO.read(new File("grass.png"));
-			treeSprite = ImageIO.read(new File("tree.png"));
+			grassSprite = ImageIO.read(new File("sprites/grass.png"));
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("Grass : sprite not found");
+		}
+		try
+		{
+			treeSprite = ImageIO.read(new File("sprites/tree.png"));
+		}
+		catch (Exception e)
+		{
+			System.out.println("Tree : sprite not found");
 			System.exit(-1);
 		}
 
 		frame = new JFrame("World of Sprite");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
-		frame.setSize(800, 800);
+		frame.setSize(32 * x, 32 * y);
 		frame.setVisible(true);
 
 		_world = w;

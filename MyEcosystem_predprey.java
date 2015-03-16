@@ -48,6 +48,7 @@ public class MyEcosystem_predprey
 		world.setCellState(1, true, 1, 0);
 		world.setCellState(1, true, 0, 1);
 
+		world.Status();
 
 		// mise a jour de l'etat du monde
 		while ( it != nombreDePasMaximum )
@@ -61,6 +62,9 @@ public class MyEcosystem_predprey
 			// 3 - iterate
 
 			it++;
+			
+			if(it % 40 == 0)
+				world.Status();
 
 			try
 			{

@@ -18,11 +18,12 @@ public class FireAgent extends Agent
 		super(__x, __y, __w);
 		try
 		{
-			img = ImageIO.read(new File("FireAgent.png"));
+			img = ImageIO.read(new File("sprites/FireAgent.png"));
 		}
 		catch (Exception e)
 		{
-			System.out.println("image introuvable");
+			System.out.println("FireAgent : sprite not found");
+			System.exit(-1);
 		}
 	}
 
@@ -45,11 +46,12 @@ public class FireAgent extends Agent
 		{
 			try
 			{
-				img = ImageIO.read(new File("MortAgent.png"));
+				img = ImageIO.read(new File("sprites/MortAgent.png"));
 			}
 			catch (Exception e)
 			{
-				System.out.println("image introuvable");
+				System.out.println("MortAgent : sprite not found");
+				System.exit(-1);
 			}
 		}
 	}

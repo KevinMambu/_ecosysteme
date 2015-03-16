@@ -186,5 +186,34 @@ public class World {
 	{
 		image.update(this.getCurrentBuffer());
 	}
+
+	public void Status() {
+		System.out.println("Status:");
+		System.out.println("Size: " + _dx + "x" + _dy);
+		System.out.println("\nAgents:");
+		
+		Agent a;
+		String s = "";
+		
+		for(int i = 0; i != agents.size(); i += 1) {
+			a = agents.get(i);
+			if (a instanceof EarthAgent)
+				s += "EarthAgent, ";
+			else if (a instanceof FireAgent)
+				s += "FireAgent, ";
+			else if (a instanceof WaterAgent)
+				s += "WaterAgent, ";
+			else
+				s += "WindAgent, ";
+
+			s += a._x + "x" + a._y + ", ";
+			s += (a._alive? "Alive" : "Dead");
+			System.out.println(s);
+			s = "";
+		}
+
+		System.out.println("Arraylist length: " + agents.size());
+		System.out.println("\n\n");
+	}
 	
 }

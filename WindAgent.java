@@ -18,11 +18,12 @@ public class WindAgent extends Agent
 		super(__x, __y, __w);
 		try
 		{
-			img = ImageIO.read(new File("WindAgent.png"));
+			img = ImageIO.read(new File("sprites/WindAgent.png"));
 		}
 		catch (Exception e)
 		{
-			System.out.println("image introuvable");
+			System.out.println("WindAgent : sprite not found");
+			System.exit(-1);
 		}
 	}
 
@@ -45,11 +46,12 @@ public class WindAgent extends Agent
 		{
 			try
 			{
-				img = ImageIO.read(new File("MortAgent.png"));
+				img = ImageIO.read(new File("sprites/MortAgent.png"));
 			}
 			catch (Exception e)
 			{
-				System.out.println("image introuvable");
+				System.out.println("MortAgent : sprite not found");
+				System.exit(-1);
 			}
 		}
 	}
