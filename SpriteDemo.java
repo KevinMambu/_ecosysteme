@@ -46,10 +46,10 @@ public class SpriteDemo extends JPanel
 			System.exit(-1);
 		}
 
-		frame = new JFrame("World of Sprite");
+		frame = new JFrame("Ecosysteme");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
-		frame.setSize(32 * x, 32 * y);
+		frame.setSize((spriteLength + 2) * x, (spriteLength + 4) * y);
 		frame.setVisible(true);
 
 		_world = w;

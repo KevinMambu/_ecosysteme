@@ -8,6 +8,11 @@ public class MyEcosystem_predprey
 
 		// initialisation generale
 
+		if(args.length != 5) {
+			System.out.println("java MyEcosystem_predprey nbWater nbEarth nbFire nbWind size");
+			System.exit(-1);
+		}
+
 		int dx = Integer.parseInt(args[4]);
 		int dy = Integer.parseInt(args[4]);
 
