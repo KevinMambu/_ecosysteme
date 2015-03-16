@@ -11,10 +11,12 @@ import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SpriteDemo extends JPanel
+import java.io.Serializable;
+
+public class SpriteDemo extends JPanel implements Serializable
 {
 
-	private static final long serialVerionUID = 149;
+	private static final long serialVersionUID = 2462347245922742374L;
 
 	private JFrame frame;
 	private World _world;
