@@ -56,11 +56,15 @@ public class FireAgent extends Agent
 
 	void repere_environement()
 	{
+		if(!_alive)
+			return;
 
 	}
 
 	void attaque_alentour (int place)
 	{
+		if(!_alive)
+			return;
 		int j = 0;
 		for (int i = 0; i != _world.agents.size(); i += 1)
 		{
@@ -97,6 +101,8 @@ public class FireAgent extends Agent
 
 	void deplacement ()
 	{
+		if(!_alive)
+			return;
 		_orient = (int)(Math.random() * 4);
 
 		switch ( _orient )

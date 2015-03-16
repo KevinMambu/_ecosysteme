@@ -8,16 +8,16 @@ public class MyEcosystem_predprey
 
 		// initialisation generale
 
-		int dx = 6;
-		int dy = 6;
+		int dx = Integer.parseInt(args[4]);
+		int dy = Integer.parseInt(args[4]);
 
 		//int reprodWater = 6;
 		//int reprodEarth = 10;
 
-		int nbWater = 2;
-		int nbEarth = 2;
-		int nbFire = 2;
-		int nbWind = 2;
+		int nbWater = Integer.parseInt(args[0]);
+		int nbEarth = Integer.parseInt(args[1]);
+		int nbFire = Integer.parseInt(args[2]);
+		int nbWind = Integer.parseInt(args[3]);
 
 
 		int displayWidth = dx;  // 200

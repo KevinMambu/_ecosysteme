@@ -40,6 +40,7 @@ public class SpriteDemo extends JPanel
 		}
 
 		frame = new JFrame("World of Sprite");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
 		frame.setSize(800, 800);
 		frame.setVisible(true);
