@@ -27,6 +27,7 @@ public class SpriteDemo extends JPanel implements Serializable
 
 	Image grassSprite;
 	Image treeSprite;
+	Image waterSprite;
 
 	public SpriteDemo(int x, int y, World w)
 	{
@@ -37,6 +38,7 @@ public class SpriteDemo extends JPanel implements Serializable
 		catch (Exception e)
 		{
 			System.out.println("Grass : sprite not found");
+			System.exit(-1);
 		}
 		try
 		{
@@ -45,6 +47,15 @@ public class SpriteDemo extends JPanel implements Serializable
 		catch (Exception e)
 		{
 			System.out.println("Tree : sprite not found");
+			System.exit(-1);
+		}
+		try
+		{
+			waterSprite = ImageIO.read(new File("sprites/water.png"));
+		}
+		catch (Exception e)
+		{
+			System.out.println("Water : sprite not found");
 			System.exit(-1);
 		}
 
@@ -84,6 +95,8 @@ public class SpriteDemo extends JPanel implements Serializable
 		{
 			for (int j = 0; j != tab[0].length; j += 1)
 			{
+				if (tab[i][j][4] == true)
+					g2.drawImage(waterSprite, spriteLength * i, spriteLength * j, spriteLength, spriteLength, frame);
 				if (tab[i][j][0] == true)
 					g2.drawImage(grassSprite, spriteLength * i, spriteLength * j, spriteLength, spriteLength, frame);
 				if (tab[i][j][1] == true)

@@ -93,7 +93,7 @@ public class EarthAgent extends Agent
 					Agent b = _world.agents.get(j);
 					if ((b instanceof EarthAgent) && !a._alive)
 					{
-						b = new EarthAgent(_x, _y, _world);
+						b = new EarthAgent(_x - (int)(Math.random()*3 - 1), _y, _world);
 						test = true;
 					}
 					j++;
