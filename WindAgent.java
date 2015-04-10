@@ -64,6 +64,11 @@ public class WindAgent extends Agent
 	{
 		if (!_alive)
 			return;
+		if (_world.getCellState(_x, _y)[9])
+		{
+			_world.setCellState(9, false, _x, _y);
+			PV += 50;
+		}
 	}
 
 

@@ -50,7 +50,7 @@ public class World
 		/*6: tsunami*/
 		/*7: volcan*/
 		/*8: pousse, a implementer*/
-		/*9: fruit, a implementer*/
+		/*9: fruit*/
 
 		activeIndex = 0;
 		agents = new ArrayList<Agent>();
@@ -61,15 +61,14 @@ public class World
 				alt[i][j] = 0;
 				for (int h = 0; h != 5; h += 1)
 				{
-					Buffer0[i][j][h] = false;
-					Buffer1[i][j][h] = false;
+					setCellState(h, false, i, j);
 				}
 			}
 		}
 
-		int radius = _dx / 3;
-		int x_r = /*(int)(Math.random() * _dx)*/_dx / 2;
-		int y_r = /*(int)(Math.random() * _dy)*/_dy / 2;
+		int radius = _dy / 3;
+		int x_r = (int)(Math.random() * _dx);
+		int y_r = (int)(Math.random() * _dy);
 		int x_rand;
 		int y_rand;
 		while (radius >= 0)
@@ -82,22 +81,17 @@ public class World
 		{
 			for (int j = 0; j != _dy; j += 1)
 			{
-				Buffer0[i][j][4] = true;
-				Buffer1[i][j][4] = true;
-
-				if (Buffer0[i][j][0])
+				setCellState(4, true, i, j);
+				if (getCellState(i, j)[0])
 				{
 					setCellState (1, (Math.random() < 0.1 ? true : false), i, j);
 					if (volcan == false)
 					{
 						setCellState (7, (Math.random() < 0.1 ? true : false), i, j);
-						volcan = Buffer0[i][j][7];
+						volcan = getCellState(i, j)[7];
 					}
-					Buffer0[i][j][4] = false;
-					Buffer1[i][j][4] = false;
-
+					setCellState(4, false, i, j);
 				}
-				Buffer1[i][j][1] = Buffer0[i][j][1];
 			}
 		}
 
@@ -106,15 +100,14 @@ public class World
 		{
 			for (int j = 0; j != _dy; j += 1)
 			{
-				if (Buffer0[i][j][1])
+				if (getCellState(i, j)[1])
 				{
-					x_rand = (i + (Math.random() < 0.5? 1 : -1) + _dx) % _dx;
-					y_rand = (j + (Math.random() < 0.5? 1 : -1) + _dy) % _dy;
-					Buffer0[x_rand][y_rand][9] = true;
+					x_rand = (i + (Math.random() < 0.5 ? 1 : -1) + _dx) % _dx;
+					y_rand = (j + (Math.random() < 0.5 ? 1 : -1) + _dy) % _dy;
+					setCellState(9, true, x_rand, y_rand);
 				}
 			}
 		}
-		setCellState(9,true,13,13);
 	}
 
 	public void checkBounds( int __x , int __y )
@@ -122,7 +115,6 @@ public class World
 		if ( __x < 0 || __x > _dx || __y < 0 || __y > _dy )
 		{
 			System.err.println("[error] out of bounds (" + __x + "," + __y + ")");
-			System.exit(-1);
 		}
 	}
 
@@ -204,62 +196,96 @@ public class World
 
 	void analyze ()
 	{
+		int x_rand;
+		int y_rand;
+		boolean [] tab;
 		for (int i = 0; i < _dx; i += 1)
 		{
 			for (int j = 0; j < _dy; j += 1)
 			{
-
-				if (getCellState(i, j)[4] && getCellState(i, j)[5])
+				tab = getCellState(i,j);
+				if (tab[8]) {
+					if (tab[3] || tab[5]) {
+						setCellState(8, false, i, j);
+					}
+				}
+				if (tab[4] && tab[5])
 				{
 					setCellState (4, false, i, j);
 					setCellState (5, false, i, j);
 					setCellState (2, true, i, j);
 				}
 
-				if (getCellState(i, j)[1] && getCellState(i, j)[5])
+				if (tab[1] && tab[5])
 				{
 					setCellState (1, false, i, j);
 				}
 
-				if (getCellState(i, j)[3] && getCellState(i, j)[4])
+				if (tab[3] && tab[4])
 				{
 					setCellState (3, false, i, j);
 					setCellState (4, false, i, j);
 					setCellState (2, true, i, j);
 				}
 
-				if (getCellState(i, j)[3])
+				if (tab[3])
 				{
 					setCellState(3, false, i, j);
 					setCellState(2, true, i, j);
 				}
 
-				if (getCellState(i, j)[5])
+				if (tab[5])
 				{
 					setCellState(5, false, i, j);
 					setCellState(3, true, i, j);
 				}
 
-				if (getCellState(i, j)[0] && getCellState(i, j)[4])
+				if (tab[0] && tab[4])
 				{
 					setCellState(4, false, i, j);
 				}
 
-				if (getCellState(i, j)[2] && getCellState(i, j)[4])
+				if (tab[2] && tab[4])
 				{
 					setCellState(4, false, i, j);
 				}
 
-				if (getCellState(i, j)[7] && getCellState(i, j)[1])
+				if (tab[7] && tab[1])
 				{
 					setCellState(1, false, i, j);
 				}
 
-				if ((Math.random() < 0.01) && getCellState(i, j)[0] && !getCellState(i, j)[2] && !getCellState(i, j)[3] && !getCellState(i, j)[5] && !getCellState(i, j)[6])
+				if ((Math.random() < 0.001) && tab[0] && !tab[4] && !tab[2] && !tab[3] && !tab[5] && !tab[6] && !tab[1] && !tab[7])
 				{
-
+					setCellState (8, true, i, j);
 				}
 
+				if (tab[8] && (Math.random() < 0.001))
+				{
+					setCellState (8, false, i, j);
+					setCellState (1, true, i, j);
+				}
+
+				if (tab[1] && (Math.random() < 0.001))
+				{
+					x_rand = (i + (Math.random() < 0.5 ? 1 : -1) + _dx) % _dx;
+					y_rand = (j + (Math.random() < 0.5 ? 1 : -1) + _dy) % _dy;
+					setCellState (9, true, x_rand, y_rand);
+				}
+				
+				if (tab[7] && volcan && (Math.random() < 0.01)) {
+					setCellState (7, false, i, j);
+					volcan = false;
+				}
+
+				if (tab[0] && !volcan && (Math.random() < 0.001)) {
+					setCellState (7, true, i, j);
+					volcan = true;
+				}
+
+				if (tab[4] && tab[6]) {
+					setCellState (6, false, i, j);
+				}
 			}
 		}
 	}
@@ -284,55 +310,55 @@ public class World
 
 	public void add (int agent)
 	{
+		// water agent : 0
 		// earth agent : 1
-		//fire 2
-		//water 0
-		//wind 3
-		int x;
-		int y;
-		int center = _dx / 2;
-		int rayon = _dx / 3;
-		switch (agent)
+		// fire agent  : 2
+		// wind agent  : 3
+		boolean test = false;
+		for (int i = 0; i != _dx; i += 1)
 		{
-		case 0:
-			x = (int)(Math.random () * (2 * rayon) + rayon);
-			y = (int)(Math.random () * (2 * rayon) + rayon);
-			if (getCellState(x, y)[1])
+			for (int j = 0; j != _dy; j += 1)
 			{
-				if (!getCellState(x, y - 1)[1])
-					y -= 1;
-				if (!getCellState(x, y + 1)[1])
-					y += 1;
-				if (!getCellState(x - 1, y)[1])
-					x -= 1;
-				if (!getCellState(x + 1, y)[1])
-					x += 1;
+				if (!test)
+				{
+					switch (agent)
+					{
+					case 0 :
+						if (getCellState(i, j)[4] && (Math.random() < 0.05))
+						{
+							agents.add (new WaterAgent (i, j, this));
+							test = true;
+						}
+						break;
+
+					case 1 :
+						if (getCellState(i, j)[0])
+						{
+							agents.add (new EarthAgent (i, j, this));
+							test = true;
+						}
+						break;
+
+					case 2 :
+						if (getCellState(i, j)[0])
+						{
+							agents.add (new FireAgent (i, j, this));
+							test = true;
+						}
+						break;
+
+					case 3 :
+						if (Math.random() < 0.05)
+						{
+							agents.add (new WindAgent (i, j, this));
+							test = true;
+						}
+						break;
+					}
+				}
 			}
-			agents.add(new WaterAgent(x, y, this));
-			break;
-
-		case 1:
-			x = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			y = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			agents.add(new EarthAgent(x, y, this));
-			break;
-
-		case 2:
-			x = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			y = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			agents.add(new FireAgent(x, y, this));
-			break;
-
-		case 3:
-			x = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			y = (int)(Math.random () * (2 * rayon) + rayon)-2;
-			agents.add(new WindAgent(x, y, this));
-			break;
-
-		default:
-			System.out.println ("World.add : Input Error");
-			System.exit (-1);
 		}
+		return;
 	}
 
 	public void stepWorld() // world THEN agents
@@ -366,27 +392,31 @@ public class World
 
 		Agent a;
 		String s = "";
+		int entities = 0;
 
 		for (int i = 0; i != agents.size(); i += 1)
 		{
 			a = agents.get(i);
-			if (a instanceof EarthAgent)
-				s += "EarthAgent, ";
-			else if (a instanceof FireAgent)
-				s += "FireAgent, ";
-			else if (a instanceof WaterAgent)
-				s += "WaterAgent, ";
-			else
-				s += "WindAgent, ";
+			if (a._alive)
+			{
+				entities += 1;
+				if (a instanceof EarthAgent)
+					s += "EarthAgent, ";
+				else if (a instanceof FireAgent)
+					s += "FireAgent, ";
+				else if (a instanceof WaterAgent)
+					s += "WaterAgent, ";
+				else
+					s += "WindAgent, ";
 
-			s += a._x + "x" + a._y + ", ";
-			s += (a._alive ? "Alive" : "Dead");
-			s += ", " + a.PV + " HP, ";
-			s += a.age + " yrs.";
-			System.out.println(s);
-			s = "";
+				s += a._x + "x" + a._y + ", ";
+				s += a.PV + " HP, ";
+				s += a.age + " yrs.";
+				System.out.println(s);
+				s = "";
+			}
 		}
-
+		System.out.println("Currently alive: " + entities);
 		System.out.println("Arraylist length: " + agents.size());
 		System.out.println("\n\n");
 	}
